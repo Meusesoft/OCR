@@ -1,0 +1,205 @@
+﻿<Window x:Class="OCRStub.ShapeNet"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+    Title="ShapeNet" Height="592" Width="897" WindowStartupLocation="CenterOwner" Initialized="Window_Initialized" xmlns:my="clr-namespace:OCRStubControls;assembly=OCRStubControls" Topmost="False" Name="WindowShapenet" Closing="WindowShapenet_Closing">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="151*" />
+            <RowDefinition Height="289*" />
+            <RowDefinition Height="40*" />
+        </Grid.RowDefinitions>
+        <Label Height="28" HorizontalAlignment="Left" Name="label1" VerticalAlignment="Top" Width="391" FontWeight="Bold">Available neural networks</Label>
+        <ListBox Margin="0,28,0,11" Name="lstNeuralNetworks" HorizontalAlignment="Left" Width="428" SelectionChanged="lstNeuralNetworks_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Name}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Label Height="28" HorizontalAlignment="Right" Margin="0,28,280,0" Name="label2" VerticalAlignment="Top" Width="120">Name</Label>
+        <TextBox Height="23" HorizontalAlignment="Right" Margin="0,28,0,0" Name="txtNameNeuralNetwork" VerticalAlignment="Top" Width="321" />
+        <Label HorizontalAlignment="Right" Margin="0,62,280,62" Name="label3" Width="120">Examples per folder</Label>
+        <TextBox HorizontalAlignment="Right" Margin="0,64,235,0" Name="txtExamplesPerFolder" Width="39" Height="28" VerticalAlignment="Top" />
+        <CheckBox HorizontalAlignment="Right" Margin="0,67,12,69" Name="chkSubFolders" Width="193">Also use sub folders</CheckBox>
+        <Button HorizontalAlignment="Right" Name="btnLoadNet" Width="75" Click="btnLoad_Click" Grid.Row="2" Margin="0,0,81,0" Height="23" VerticalAlignment="Bottom">Load</Button>
+        <Button Grid.Row="2" Height="23" HorizontalAlignment="Right" Name="btnSave" VerticalAlignment="Bottom" Width="75" Click="btnSave_Click">Save</Button>
+        <Button Height="23" HorizontalAlignment="Right" Margin="0,0,221,11" Name="btnUpdateNetwork" VerticalAlignment="Bottom" Width="75" Click="btnUpdateNetwork_Click">Update</Button>
+        <TabControl Grid.Row="1" Name="tabShapeNetFunctions" SelectedIndex="1" TabStripPlacement="Top">
+            <TabItem Header="Shapes" Name="tabShapes">
+                <Grid Margin="5">
+                    <Label Height="28" HorizontalAlignment="Left" Name="label4" VerticalAlignment="Top" Width="301" FontWeight="Bold">Shapes in selected neural network</Label>
+                    <ListView Margin="0,26,0,113" Name="lvShapes" SelectionChanged="lvShapes_SelectionChanged">
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="true">
+                                <GridViewColumn DisplayMemberBinding="{Binding Shape}" Header="Shape" Width="100" />
+                                <GridViewColumn DisplayMemberBinding="{Binding SampleFolder}" Header="Folder" Width="450" />
+                                <GridViewColumn DisplayMemberBinding="{Binding NumberItems}" Header="Items" Width="100" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Label HorizontalAlignment="Left" Margin="0,0,0,61" Name="label5" Width="68" Height="28" VerticalAlignment="Bottom">Shape</Label>
+                    <Label Height="28" HorizontalAlignment="Left" Margin="0,0,0,28" Name="label6" VerticalAlignment="Bottom" Width="68">Folder</Label>
+                    <TextBox Margin="78,0,0,64" Name="txtShapeName" HorizontalAlignment="Left" Width="154" Height="23" VerticalAlignment="Bottom" />
+                    <TextBox Height="23" Margin="78,0,0,31" Name="txtShapeFolder" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="322" />
+                    <Button Margin="408,0,362,33" Name="btnBrowseShapeFolder" Height="23" VerticalAlignment="Bottom" Click="btnBrowseShapeFolder_Click">Browse...</Button>
+                    <Button Height="23" HorizontalAlignment="Left" Margin="78,0,0,0" Name="btnAddShape" VerticalAlignment="Bottom" Width="75" Click="btnAddShape_Click">Add</Button>
+                    <Button Height="23" HorizontalAlignment="Left" Margin="167,0,0,0" Name="btnUpdate" VerticalAlignment="Bottom" Width="75" Click="btnUpdate_Click">Update</Button>
+                    <Button Height="23" HorizontalAlignment="Left" Margin="257,0,0,0" Name="btnDelete" VerticalAlignment="Bottom" Width="75" Click="btnDelete_Click">Delete</Button>
+                    <StackPanel Height="100" HorizontalAlignment="Right" Margin="0,0,211,7" Name="stackPanel1" VerticalAlignment="Bottom" Width="128">
+                        <Label Height="20" Name="label35" Width="120" FontWeight="Black" Padding="2">Shape position</Label>
+                        <CheckBox Height="16" Name="chkShapeAscent" Width="120">Ascent</CheckBox>
+                        <CheckBox Height="16" Name="chkShapeHeightline" Width="120">Height line</CheckBox>
+                        <CheckBox Height="16" Name="chkShapeCenterLine" Width="120">Center line</CheckBox>
+                        <CheckBox Height="16" Name="chkShapeBaseline" Width="120">Baseline</CheckBox>
+                        <CheckBox Height="16" Name="chkShapeDecent" Width="120">Decent</CheckBox>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Training data" Name="tabTrainingData">
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="212*" />
+                        <ColumnDefinition Width="124*" />
+                        <ColumnDefinition Width="119*" />
+                        <ColumnDefinition Width="390*" />
+                    </Grid.ColumnDefinitions>
+                    <ListBox Name="lstFiles" Margin="0,34,9,37" SelectionChanged="lstFiles_SelectionChanged" />
+                    <Label Height="28" Name="label27" VerticalAlignment="Top">Files</Label>
+                    <Button Height="23" HorizontalAlignment="Left" Margin="0,0,0,8" Name="btnRefresh" VerticalAlignment="Bottom" Width="75" Click="btnRefresh_Click">Refresh</Button>
+                    <my:CharacterGrid Height="108" Margin="0,34,8,0" Name="imgTrainingDataOriginal" VerticalAlignment="Top" Grid.Column="1" />
+                    <Label Height="28" Name="label28" VerticalAlignment="Top" Grid.Column="1">Image</Label>
+                    <Label Grid.Column="2" Height="28" Name="label29" VerticalAlignment="Top">Recognition</Label>
+                    <ListBox Grid.Column="2" Margin="0,34,9,0" Name="lstRecognitionResult" Height="108" VerticalAlignment="Top" />
+                    <Label Grid.Column="3" Height="28" Name="label30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120">Shapes</Label>
+                    <ListBox Grid.Column="3" HorizontalAlignment="Left" Margin="0,34,0,37" Name="lstShapes" Width="109" DisplayMemberPath="Shape" PreviewKeyDown="lstShapes_PreviewKeyDown" />
+                    <Button Grid.Column="3" Height="23" Margin="0,0,0,8" Name="btnCopyFileToShape" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="76" Click="btnCopyFileToShape_Click">Copy</Button>
+                    <Button Height="23" Margin="81,0,9,8" Name="btnFilterOnShape" VerticalAlignment="Bottom" Click="btnFilterOnShape_Click">Filter on shape</Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Train" Name="tabTrain">
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="226*" />
+                        <ColumnDefinition Width="323*" />
+                        <ColumnDefinition Width="296*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Name="label7" Height="27.448" VerticalAlignment="Top" FontWeight="Bold" Margin="0,0,5,0">Create neural network and train it</Label>
+                    <Label Margin="0,32,48,0" Name="label8" Height="27.448" VerticalAlignment="Top">Nr. of nodes in hidden layer 1</Label>
+                    <Label Height="27.448" Margin="0,60,48,0" Name="label9" VerticalAlignment="Top">Nr. of nodes in hidden layer 2</Label>
+                    <TextBox Height="23" Margin="0,34,18,0" Name="txtNodesLayer1" VerticalAlignment="Top" HorizontalAlignment="Right" Width="31" TextAlignment="Right" TextDecorations="None">20</TextBox>
+                    <TextBox Height="23" HorizontalAlignment="Right" Margin="0,62,18,0" Name="txtNodesLayer2" VerticalAlignment="Top" Width="31" TextAlignment="Right">20</TextBox>
+                    <Button HorizontalAlignment="Left" Margin="6,120,0,142" Name="btnCreateAndTrain" Width="105" Click="btnCreateAndTrain_Click">Create and Train</Button>
+                    <Label Margin="1,2,6,0" Name="label10" FontWeight="Bold" Height="27.573" VerticalAlignment="Top" Grid.Column="1">Training Progress</Label>
+                    <Button HorizontalAlignment="Right" Margin="0,120,4,0" Name="btnCancelTraining" Width="105" IsEnabled="False" Click="btnCancelTraining_Click" Height="22.448" VerticalAlignment="Top">Cancel</Button>
+                    <TextBox Height="23" HorizontalAlignment="Right" Margin="0,91,18,0" Name="txtRepetitions" TextAlignment="Right" VerticalAlignment="Top" Width="31">50</TextBox>
+                    <Label Height="27.448" Margin="0,86.552,48,0" Name="label16" VerticalAlignment="Top">Nr. of repetitions</Label>
+                    <Label Height="28" Margin="6,0,6,14" Name="lblProgress" VerticalAlignment="Bottom" Background="Ivory" BorderBrush="Black" BorderThickness="1" Grid.Column="1"></Label>
+                    <Button Margin="6,0,0,113" Name="btnTrainMore" HorizontalAlignment="Left" Width="105" Click="btnTrainMore_Click" Height="23.573" VerticalAlignment="Bottom">Train more</Button>
+                    <my:Chart Margin="6,32,6,48" Name="chart1" xmlns:my="clr-namespace:OCRStubControls;assembly=OCRStubControls" Grid.Column="1" />
+                    <Label FontWeight="Bold" Height="27.573" Margin="0,6,0,0" Name="label34" VerticalAlignment="Top" Grid.Column="2">Failed examples</Label>
+                    <ListBox Margin="8,32,0,128" Name="lstFailedExamples" Grid.Column="2" SelectionChanged="lstFailedExamples_SelectionChanged" />
+                    <my:CharacterGrid Height="108" HorizontalAlignment="Left" Margin="8,0,0,14" Name="imgFailed" VerticalAlignment="Bottom" Width="108" Grid.Column="2" />
+                    <ListBox Margin="122,0,0,14" Name="lstFailedResult" Height="109" VerticalAlignment="Bottom" Grid.Column="2" />
+                    <Button Height="23.573" HorizontalAlignment="Left" Margin="6,0,0,84" Name="btnTestNetwork" VerticalAlignment="Bottom" Width="105" Click="btnTestNetwork_Click">Test network</Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Test" Name="tabTest">
+                <Grid>
+                    <Label Height="28" HorizontalAlignment="Left" Name="label11" VerticalAlignment="Top" Width="73" Margin="0,40,0,0" Focusable="True">Sample</Label>
+                    <TextBox Height="23" Margin="79,40,374,0" Name="txtSample" VerticalAlignment="Top">D:\OCR\Library\Arial\lowercase_a\00000001.bmp</TextBox>
+                    <Label Height="28" Margin="0,6,376,0" Name="label12" VerticalAlignment="Top" FontWeight="Bold">Test a sample against the selected neural network</Label>
+                    <Button Height="23" HorizontalAlignment="Right" Margin="0,39.48,293,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click">Browse...</Button>
+                    <Label Height="28" HorizontalAlignment="Left" Margin="0,74,0,0" Name="label13" VerticalAlignment="Top" Width="73">Results</Label>
+                    <ListBox HorizontalAlignment="Left" Margin="79,74,0,0" Name="lstResults" Width="212" />
+                    <Button Height="23" HorizontalAlignment="Right" Margin="0,40,212,0" Name="btnTest" VerticalAlignment="Top" Width="75" Click="btnTest_Click">Test it</Button>
+                    <Label Height="28" Margin="303,74,0,0" Name="label14" VerticalAlignment="Top" HorizontalAlignment="Left" Width="63">Original</Label>
+                    <Label HorizontalAlignment="Right" Margin="0,74,275,0" Name="label15" Width="75" Height="28.448" VerticalAlignment="Top">Projection</Label>
+                    <Label Height="28" HorizontalAlignment="Right" Margin="0,0,35,43" Name="lblStrokes" VerticalAlignment="Bottom" Width="120"></Label>
+                    <Grid HorizontalAlignment="Right" Margin="0,74,96,28" Name="GridProjection" Width="191" VerticalAlignment="Top" Height="191">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="118" />
+                            <RowDefinition Height="36.304*" />
+                            <RowDefinition Height="39*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="118*" />
+                            <ColumnDefinition Width="36*" />
+                            <ColumnDefinition Width="36.889*" />
+                        </Grid.ColumnDefinitions>
+                        <my:ProjectionBars Grid.ColumnSpan="1" Margin="0" Name="pbHorizontal" Grid.Row="1" Height="32" Width="108" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        <my:ProjectionBars Margin="0" Name="pbStrokeHorizontal" Grid.Row="2" Height="32" Width="108" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                        <my:CharacterGrid Margin="0" Name="imgProjection" Width="108" Height="108" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        <my:ProjectionBars Margin="0" Name="pbVertical" Grid.Column="1" Width="32" Height="108" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        <my:ProjectionBars Margin="0" Name="pbStrokeVertical" Grid.Column="2" Width="32" Height="108" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    </Grid>
+                    <my:CharacterGrid Margin="361,74.427,386,113.147" Name="imgSample" Width="108" Height="108" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Thinning" Name="tabThinning">
+                <Grid>
+                    <Label Focusable="True" Height="28" HorizontalAlignment="Left" Margin="1,44,0,0" Name="label17" VerticalAlignment="Top" Width="73">Sample</Label>
+                    <TextBox Height="23" Margin="60,44,194,0" Name="txtThinningSample" VerticalAlignment="Top" Grid.ColumnSpan="2" TextChanged="txtThinningSample_TextChanged">D:\OCR\Library\Arial\lowercase_a\00000001.bmp</TextBox>
+                    <Label FontWeight="Bold" Height="28" Margin="3,10,47.987,0" Name="label18" VerticalAlignment="Top">Test thinning algorithm on sample</Label>
+                    <Button Height="23" HorizontalAlignment="Right" Margin="0,43.48,110,0" Name="BrowseThinning" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="BrowseThinning_Click">Browse...</Button>
+                    <Button Height="23" HorizontalAlignment="Right" Margin="0,44,29,0" Name="RunThinning" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="RunThinning_Click">Run</Button>
+                    <StackPanel Margin="0,136,0,-3" Name="StackPanelThinningSteps" Orientation="Horizontal">
+                        <StackPanel Height="150" Name="stackPanel2" Width="114">
+                            <Label Height="26" Name="label19" Width="106" FontWeight="Bold">Step 1</Label>
+                            <my:CharacterGrid Height="108.448" Name="ThinningStep1" Width="108" />
+                        </StackPanel>
+                        <StackPanel Height="150" Name="stackPanel3" Width="114">
+                            <Label Height="26" Name="label20" Width="106" FontWeight="Bold">Step 2</Label>
+                            <my:CharacterGrid Height="108.448" Name="ThinningStep2" Width="108" />
+                        </StackPanel>
+                        <StackPanel Height="150" Name="stackPanel4" Width="114">
+                            <Label Height="26" Name="label21" Width="106" FontWeight="Bold">Step 3</Label>
+                            <my:CharacterGrid Height="108.448" Name="ThinningStep3" Width="108" />
+                        </StackPanel>
+                        <StackPanel Height="150" Name="stackPanel5" Width="114">
+                            <Label Height="26" Name="label22" Width="106" FontWeight="Bold">Step 4</Label>
+                            <my:CharacterGrid Height="108.448" Name="ThinningStep4" Width="108" />
+                        </StackPanel>
+                        <StackPanel Height="150" Name="stackPanel6" Width="114">
+                            <Label Height="26" Name="label23" Width="106" FontWeight="Bold">Step 5</Label>
+                            <my:CharacterGrid Height="108.448" Name="ThinningStep5" Width="108" />
+                        </StackPanel>
+                        <StackPanel Height="150" Name="stackPanel7" Width="114">
+                            <Label Height="26" Name="label24" Width="106" FontWeight="Bold">Step 6</Label>
+                            <my:CharacterGrid Height="108.448" Name="ThinningStep6" Width="108" />
+                        </StackPanel>
+                        <StackPanel Height="150" Name="stackPanel8" Width="114">
+                            <Label Height="26" Name="label25" Width="106" FontWeight="Bold">Step 7</Label>
+                            <my:CharacterGrid Height="108.448" Name="ThinningStep7" Width="108" />
+                        </StackPanel>
+                    </StackPanel>
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="73,83,0,0" Name="ThinningAlgorithm" VerticalAlignment="Top" Width="213" SelectedIndex="4">
+                        <ComboBoxItem>Standard</ComboBoxItem>
+                        <ComboBoxItem>Erode</ComboBoxItem>
+                        <ComboBoxItem>Middle</ComboBoxItem>
+                        <ComboBoxItem>Condensed</ComboBoxItem>
+                        <ComboBoxItem>Pruning</ComboBoxItem>
+                        <ComboBoxItem>Pruning original</ComboBoxItem>
+                    </ComboBox>
+                    <Label Height="28" HorizontalAlignment="Left" Margin="3,78,0,0" Name="label26" VerticalAlignment="Top" Width="85">Algorithm</Label>
+                </Grid>
+            </TabItem>
+            <TabItem Header="WordList" Name="tabWordList" Loaded="tabWordList_Loaded">
+                <Grid>
+                    <Label Height="28" HorizontalAlignment="Left" Margin="6,6,0,0" Name="label31" VerticalAlignment="Top" Width="120" FontWeight="Bold">Create the word list</Label>
+                    <Label Focusable="True" Height="31" HorizontalAlignment="Left" Margin="6,40,0,0" Name="label32" VerticalAlignment="Top" Width="73">Source</Label>
+                    <TextBox Height="23" Margin="71,40,183,0" Name="txtWordListSource" VerticalAlignment="Top">D:\OCR\wordlist.txt</TextBox>
+                    <Button Height="23" HorizontalAlignment="Right" Margin="0,39,99,0" Name="btnBrowseWordList" VerticalAlignment="Top" Width="75" Click="btnBrowseWordList_Click">Browse...</Button>
+                    <Button Height="23" HorizontalAlignment="Right" Margin="0,40,18,0" Name="btnCreateWordList" VerticalAlignment="Top" Width="75" Click="btnCreateWordList_Click">Process</Button>
+                    <Label HorizontalAlignment="Left" Margin="6,77,0,0" Name="label33" Width="65" Height="27.573" VerticalAlignment="Top">Word</Label>
+                    <Button Height="23" HorizontalAlignment="Left" Margin="244,77,0,0" Name="btnTestWord" VerticalAlignment="Top" Width="75" Click="btnTestWord_Click">Test</Button>
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="71,77,0,0" Name="txtWord" VerticalAlignment="Top" Width="167" />
+                    <ListBox Margin="325,77,320,53" Name="lstWordResult" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Button Height="23" HorizontalAlignment="Right" Margin="0,0,12,11" Name="btnDeleteExamples" VerticalAlignment="Bottom" Width="95" Click="btnDeleteExamples_Click" IsEnabled="True">Delete examples</Button>
+        <Button Height="23" HorizontalAlignment="Right" Margin="0,0,113,11" Name="btnCreateFolders" VerticalAlignment="Bottom" Width="102" Click="btnCreateFolders_Click">Create folders</Button>
+    </Grid>
+</Window>

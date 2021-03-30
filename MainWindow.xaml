@@ -1,0 +1,81 @@
+﻿<Window x:Class="OCRStub.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="OCR" Height="690" Width="852" WindowStartupLocation="CenterScreen" xmlns:my="clr-namespace:OCRStubControls;assembly=OCRStubControls" Closing="Window_Closing" Name="MainWindow" Loaded="MainWindow_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="658*" />
+            <ColumnDefinition Width="172*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="33*" />
+            <RowDefinition Height="34*" />
+            <RowDefinition Height="565*" />
+        </Grid.RowDefinitions>
+        <TabControl Name="tabControl1" Grid.Row="3" Grid.ColumnSpan="2">
+            <TabItem Header="Original" Name="tabItem1">
+                <Grid Margin="5">
+                    <ScrollViewer Margin="0,0,0,0" Name="scrollViewer1" BorderBrush="Black" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <Image Name="ImgOriginal" Stretch="None" />
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Preprocessed">
+                <Grid Margin="5">
+                    <ScrollViewer BorderBrush="Black" HorizontalScrollBarVisibility="Auto" Name="scrollViewer2" VerticalScrollBarVisibility="Auto" Margin="0,0,0,260">
+                        <Image Name="imgTreshold" Stretch="None" />
+                    </ScrollViewer>
+                    <my:ProjectionBars Height="216" Margin="0,0,0,6" Name="IntensityHistogram" VerticalAlignment="Bottom" xmlns:my="clr-namespace:OCRStubControls;assembly=OCRStubControls" HorizontalAlignment="Left" Width="369" />
+                    <Label Height="28" Margin="0,0,0,226" Name="label3" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="120">Histogram</Label>
+                </Grid>
+            </TabItem>
+            <TabItem Header="ResultImage">
+                <Grid Margin="5">
+                    <CheckBox Height="16" HorizontalAlignment="Right" Margin="0,6,24,0" Name="chkDrawComponents" VerticalAlignment="Top" Width="120" Click="chkDrawComponents_Click">Draw Components</CheckBox>
+                    <CheckBox Height="16" Margin="0,28,24,0" Name="chkDrawSentenceBox" VerticalAlignment="Top" IsChecked="True" Click="chkDrawSentenceBox_Click" HorizontalAlignment="Right" Width="120">Draw Sentence box</CheckBox>
+                    <CheckBox Height="16" HorizontalAlignment="Right" Margin="0,69,13,0" Name="chkDrawSentenceLines" VerticalAlignment="Top" Width="131" IsChecked="True" Click="chkDrawSentenceLines_Click">Draw Sentence lines</CheckBox>
+                    <CheckBox Height="16" HorizontalAlignment="Right" Margin="0,49,24,0" Name="chkDrawSentenceLine" VerticalAlignment="Top" Width="120" IsChecked="True" Click="chkDrawSentenceLine_Click">Draw Sentence line</CheckBox>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" Name="scrollViewer3" VerticalScrollBarVisibility="Auto" Margin="0,0,150,0">
+                        <Image Name="imgResult" Stretch="None" MouseLeftButtonUp="imgResult_MouseLeftButtonUp" />
+                    </ScrollViewer>
+                    <StackPanel HorizontalAlignment="Right" Margin="0,91,2,0" Name="stackPanel1" Width="142" >
+                        <Label Height="25" Name="label4" Width="120" Margin="5" FontWeight="Bold">Component</Label>
+                        <StackPanel Height="30" Name="stackPanel2" Width="125" Orientation="Horizontal">
+                            <Label Height="28" Name="labelID" Width="50"></Label>
+                            <Button Height="23" Name="btnOpenComponent" Width="75" HorizontalAlignment="Stretch" Click="btnOpenComponent_Click">Open</Button>
+                        </StackPanel>
+                        <my:CharacterGrid Height="84" Name="imgOriginal" Width="90" Margin="5" HorizontalAlignment="Center" />
+                        <my:CharacterGrid Height="84" Name="imgProjection" Width="90" Margin="5" HorizontalAlignment="Center" />
+                        <ListBox Height="100" Name="lstResults" Width="120" Margin="5" />
+                    </StackPanel>
+                </Grid>
+        </TabItem>
+            <TabItem Header="ResultText">
+                <TextBox Height="Auto" Margin="5,5,5,5" Name="Result" VerticalAlignment="Stretch" />
+            </TabItem>
+            <TabItem Header="Statistics">
+                <TextBox Height="Auto" Margin="5,5,5,5" Name="Statistics" VerticalAlignment="Stretch" />
+            </TabItem>
+            <TabItem Header="Settings" Name="tabItem2" IsEnabled="True">
+                <Grid Margin="5">
+                    <CheckBox Height="16" HorizontalAlignment="Left" Name="chkDebug" VerticalAlignment="Top" Width="126" IsChecked="True" Unchecked="chkDebug_Unchecked">Debug</CheckBox>
+                    <CheckBox Height="16" HorizontalAlignment="Left" Margin="43,22,0,0" Name="chkTraceFeatures" VerticalAlignment="Top" Width="360">Trace Extract Features</CheckBox>
+                    <TextBox Height="23" Margin="75,70,27,0" Name="txtTraceFeatureFolder" VerticalAlignment="Top">D:\OCR\Images\</TextBox>
+                    <Label Height="28" HorizontalAlignment="Left" Margin="75,44,0,0" Name="label2" VerticalAlignment="Top" Width="254">Folder to save extracted bitmaps to</Label>
+                    <CheckBox Height="16" HorizontalAlignment="Left" Margin="0,112,0,0" Name="chkApplyWordList" VerticalAlignment="Top" Width="403">Apply Word List after recognition</CheckBox>
+                    <CheckBox Height="16" Margin="0,134,0,0" Name="chkApplySplitConnected" VerticalAlignment="Top" HorizontalAlignment="Left" Width="403">Apply split feature on connected components</CheckBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Label HorizontalAlignment="Left" Name="label1" Width="69" Margin="0,2,0,0" Grid.Row="1">Image file</Label>
+        <TextBox Margin="75,6,6,0" Name="txtImageFile" Grid.Row="1">D:\Projects\TOcr\abp-brief.bmp</TextBox>
+        <Button Name="btnOpen" Click="btnOpen_Click" Grid.Column="1" Margin="0,6,0,0" Grid.Row="1" HorizontalAlignment="Left" Width="81">Open</Button>
+        <Button Margin="0,6,10,0" Name="btnAnalyse" IsEnabled="True" IsDefault="True" Click="btnAnalyse_Click" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Width="75">Analyse</Button>
+        <Menu Grid.ColumnSpan="2" Name="menu1" Height="20" VerticalAlignment="Top">
+            <MenuItem Click="mnuTestcenter_Click" Header="Test center" Name="mnuTestcenter" />
+        </Menu>
+        <Slider Grid.Row="2" Margin="6,6,10,6" Name="sldThreadCount" Maximum="4" Minimum="1" SmallChange="1" TickPlacement="BottomRight" Grid.Column="1" AutoToolTipPlacement="None" Value="1" IsSnapToTickEnabled="True" ValueChanged="sldThreadCount_ValueChanged" />
+        <Label Grid.Row="2" HorizontalAlignment="Right" Margin="0,6,6,0" Name="label6" Width="109">Maximum Threads</Label>
+    </Grid>
+</Window>
